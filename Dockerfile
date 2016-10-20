@@ -7,5 +7,5 @@ LABEL org.label-schema.name="kitchen-ci" \
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install curl -y
-RUN curl -L https://www.opscode.com/chef/install.sh | bash -s -- -P chefdk
+RUN curl -L https://www.opscode.com/chef/install.sh | bash -s -- -P chefdk -v 0.19.6
 RUN echo 'eval "$(chef shell-init bash)"' >> ~/.bashrc
