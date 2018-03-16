@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install curl tar -y &&\
+RUN apt-get update && apt-get install curl tar rsync -y &&\
     curl -L https://www.opscode.com/chef/install.sh | bash -s -- -P chefdk &&\
     echo 'eval "$(chef shell-init bash)"' >> ~/.bashrc &&\
 		apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
