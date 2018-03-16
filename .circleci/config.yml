@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: damacus/docker-builder
+    working_directory: ~/project
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.11.0-ce
+      - restore_cache:
+          keys:
+            - v2-{{ arch }}-{{ checksum "Dockerfile" }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Build image
+          command: |
+            source ".docker/functions.sh"
+            build                       
+      - save_cache:
+          key: v2-{{ arch }}-{{ checksum "Dockerfile" }}
+          paths:
+            - /caches/app.tar
+      - deploy:
+          name: Push Image
+          context: org-global
+          command: |
+            source '.docker/functions.sh' 
+            push
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          context: org-global
